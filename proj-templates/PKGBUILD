@@ -1,0 +1,20 @@
+pkgname=proj-templates
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="project templates for the proj script"
+arch=(any)
+url=""
+license=('MIT')
+groups=('base')
+depends=('scripts')
+source=("./templates.tar.gz")
+
+package() {
+    cd templates
+    mkdir -p "$pkgdir"/etc/proj/templates/
+    for d in ./*; do
+        cp -r $d "$pkgdir"/etc/proj/templates/
+        chmod 0777 -R "$pkgdir"/etc/proj/templates/`basename $d`
+    done
+}
+md5sums=('6e2d7c5e229c75b506ed2ad74720b080')
