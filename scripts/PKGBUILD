@@ -1,0 +1,18 @@
+pkgname=scripts
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="general, helpful scripts"
+arch=(any)
+url=""
+license=('MIT')
+groups=('base')
+depends=('bash')
+source=("git+https://github.com/IanS5/scripts.git")
+
+package() {
+    cd scripts
+	for f in *.sh; do
+        install -Dm 755 $f "$pkgdir"/usr/bin/`basename $f .sh`
+    done
+}
+md5sums=('SKIP')

@@ -1,0 +1,4 @@
+scripts
+*.tar.gz
+pkg
+src
