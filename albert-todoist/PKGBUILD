@@ -13,4 +13,4 @@ package() {
   INSTALL_DIR="$pkgdir"/usr/share/albert/org.albert.extension.python/modules/Todoist \
   ./install.sh
 }
-md5sums=('SKIP')
+md5sums=('b217abf2ba366054f73dcff2b7395aae')

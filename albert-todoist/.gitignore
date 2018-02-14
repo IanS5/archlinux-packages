@@ -1,4 +1,4 @@
 albert-todoist
-*.tar.xz
+*.tar.gz
 pkg
 src
