@@ -1,0 +1,16 @@
+pkgname=albert-todoist
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="todoist plugin for albert"
+arch=(any)
+url=""
+license=('MIT')
+depends=('albert')
+source=("https://github.com/IanS5/albert-todoist/archive/v0.1.0.tar.gz")
+
+package() {
+  cd "$pkgname-$pkgver"
+  INSTALL_DIR="$pkgdir"/usr/share/albert/org.albert.extension.python/modules/Todoist \
+  ./install.sh
+}
+md5sums=('SKIP')
