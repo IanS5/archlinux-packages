@@ -1,5 +1,5 @@
 pkgname=albert-todoist
-pkgver=0.1.0
+pkgver=0.1.1
 pkgrel=1
 pkgdesc="todoist plugin for albert"
 arch=(any)
