@@ -6,7 +6,7 @@ arch=(any)
 url=""
 license=('MIT')
 groups=('base')
-depends=('bash')
+depends=('bash' 'inotify-tools')
 source=("git+https://github.com/IanS5/scripts.git")
 
 package() {
