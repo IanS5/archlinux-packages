@@ -5,7 +5,7 @@ arch=('x86_64')
 pkgdesc="essential kubernetes applications, along with systemd service files"
 source=("https://github.com/kubernetes/kubernetes/releases/download/v${pkgver}/kubernetes.tar.gz"
         "https://storage.googleapis.com/kubernetes-release/release/v${pkgver}/${pkgname}-linux-amd64.tar.gz"
-        "file://kubelet.service")
+        "kubelet.service")
 
 build() {
     echo "skipping build step - nothing to build"
