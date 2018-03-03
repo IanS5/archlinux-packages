@@ -6,7 +6,7 @@ Type=simple
 WorkingDirectory=/var/lib/kubelet
 EnvironmentFile=-/etc/kubernetes/config
 EnvironmentFile=-/etc/kubernetes/kubelet
-ExecStart=/usr/bin/kubelet $KUBELET_ARGS
+ExecStart=/usr/bin/kubelet --config=/etc/kubernetes/manifests $KUBELET_ARGS
 Restart=on-abort
 
 [Install]
