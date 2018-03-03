@@ -2,6 +2,7 @@ pkgname="kubernetes-server"
 pkgver="1.7.13"
 pkgrel=1
 arch=('x86_64')
+depends=('ethtool' 'socat' 'ebtables' 'docker')
 pkgdesc="essential kubernetes applications, along with systemd service files"
 source=("https://github.com/kubernetes/kubernetes/releases/download/v${pkgver}/kubernetes.tar.gz"
         "https://storage.googleapis.com/kubernetes-release/release/v${pkgver}/${pkgname}-linux-amd64.tar.gz"
