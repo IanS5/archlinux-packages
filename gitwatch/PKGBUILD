@@ -5,7 +5,7 @@ pkgdesc="gRPC/protobuf based server and client for watching git hosting web hook
 arch=(any)
 url=""
 license=('MIT')
-makedepends=('go')
+makedepends=('go' 'make')
 source=("git+https://github.com/IanS5/gitwatch.git")
 
 build() {
