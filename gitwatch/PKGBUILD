@@ -1,23 +1,96 @@
 pkgname=gitwatch
-pkgver=0.0.2
+pkgver=1.2.3
 pkgrel=1
-pkgdesc="gRPC/protobuf based server and client for watching git hosting web hooks"
-arch=(any)
-url=""
+pkgdesc="watch git hosting webhooks"
+arch=('x86_64' 'i686')
+url="http://github.com/IanS5/gitwatch"
 license=('MIT')
-makedepends=('go' 'make')
-source=("git+https://github.com/IanS5/gitwatch.git")
+makedepends=('go' 'git')
+options=('!strip' '!emptydirs')
+_gourl=github.com/IanS5/gitwatch
 
 build() {
-    cd "$pkgname"
-    go get github.com/golang/protobuf/...
-    go get google.golang.org/grpc
-    go get github.com/google/go-github/...
-    go get golang.org/x/net/...
+  export GOROOT=/usr/lib/go
+
+  rm -rf build
+  mkdir -p build/go
+  cd build/go
+
+  for f in "$GOROOT/"*; do
+    ln -s "$f"
+  done
+
+  rm pkg
+  mkdir pkg
+  cd pkg
+
+  for f in "$GOROOT/pkg/"*; do
+    ln -s "$f"
+  done
+
+  platform=`for f in "$GOROOT/pkg/"*; do echo \`basename $f\`; done|grep linux`
+
+  rm -f "$platform"
+  mkdir "$platform"
+  cd "$platform"
+
+  for f in "$GOROOT/pkg/$platform/"*.h; do
+    ln -s "$f"
+  done
+
+  export GOROOT="$srcdir/build/go"
+  export GOPATH="$srcdir/build"
+
+  go get -fix "$_gourl"
+
+  # Prepare executable
+  if [ -d "$srcdir/build/src" ]; then
+    cd "$srcdir/build/src/$_gourl"
     make build
+  else
+    echo 'Old sources for a previous version of this package are already present!'
+    echo 'Build in a chroot or uninstall the previous version.'
+    return 1
+  fi
 }
+
 package() {
-    cd "$pkgname"
-    install -Dm775 gitwatch "$pkdir"/usr/bin/gitwatch
+  export GOROOT="$GOPATH"
+
+  # Package go package files
+  for f in "$srcdir/build/go/pkg/"* "$srcdir/build/pkg/"*; do
+    # If it's a directory
+    if [ -d "$f" ]; then
+      cd "$f"
+      mkdir -p "$pkgdir/$GOROOT/pkg/`basename $f`"
+      for z in *; do
+        # Check if the directory name matches
+        if [ "$z" == `echo $_gourl | cut -d/ -f1` ]; then
+          cp -r $z "$pkgdir/$GOROOT/pkg/`basename $f`"
+        fi
+      done
+      cd ..
+    fi
+  done
+
+  # Package source files
+  if [ -d "$srcdir/build/src" ]; then
+    mkdir -p "$pkgdir/$GOROOT/src/pkg"
+    cp -r "$srcdir/build/src/"* "$pkgdir/$GOROOT/src/pkg/"
+    find "$pkgdir" -depth -type d -name .git -exec rm -r {} \;
+  fi
+
+  # Package license (if available)
+  for f in LICENSE COPYING; do
+    if [ -e "$srcdir/build/src/$_gourl/$f" ]; then
+      install -Dm644 "$srcdir/build/src/$_gourl/$f" \
+        "$pkgdir/usr/share/licenses/$pkgname/$f"
+    fi
+  done
+
+  # Package executables
+  if [ -e "$srcdir/build/$pkgname" ]; then
+    install -Dm755 "$srcdir/build/$pkgname" \
+      "$pkgdir/usr/bin/$pkgname"
+  fi
 }
-md5sums=('SKIP')
