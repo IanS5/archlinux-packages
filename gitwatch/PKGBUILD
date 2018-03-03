@@ -12,7 +12,7 @@ build() {
     cd "$pkgname"
     go get github.com/golang/protobuf/...
     go get google.golang.org/grpc
-    go get github.com/google/go-github
+    go get github.com/google/go-github/...
     go get golang.org/x/net
     make build
 }
