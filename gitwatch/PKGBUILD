@@ -9,11 +9,11 @@ makedepends=('go')
 source=("git+https://github.com/IanS5/gitwatch.git")
 
 build() {
-    cd "$pkgname-$pkgver"
+    cd "$pkgname"
     make build
 }
 package() {
-    cd "$pkgname-$pkgver"
+    cd "$pkgname"
     install -Dm775 gitwatch "$pkdir"/usr/bin/gitwatch
 }
 md5sums=('SKIP')
