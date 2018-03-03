@@ -1,0 +1,15 @@
+[Unit]
+Description=Kubelet
+After=docker.target
+Requires=docker.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/lib/kubelet
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/kubelet
+ExecStart=/usr/bin/kubelet $KUBELET_ARGS
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
