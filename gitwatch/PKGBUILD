@@ -1,0 +1,20 @@
+pkgname=gitwatch
+pkgver=0.0.2
+pkgrel=1
+pkgdesc="gRPC/protobuf based server and client for watching git hosting web hooks"
+arch=(any)
+url=""
+license=('MIT')
+groups=('base')
+depends=('go')
+source=("git+https://github.com/IanS5/gitwatch.git")
+
+build() {
+    cd "$pkgname-$pkgver"
+    make build
+}
+package() {
+    cd "$pkgname-$pkgver"
+    install -Dm775 gitwatch "$pkdir"/usr/bin/gitwatch
+}
+md5sums=('SKIP')
