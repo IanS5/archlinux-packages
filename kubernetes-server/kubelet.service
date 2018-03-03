@@ -1,7 +1,5 @@
 [Unit]
 Description=Kubelet
-After=docker.target
-Requires=docker.target
 
 [Service]
 Type=simple
