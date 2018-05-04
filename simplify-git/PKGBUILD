@@ -1,0 +1,22 @@
+pkgname=simplify-git
+pkgver=33c98ca2f515cef77e3966cf0f8dc71984d3f8d9
+pkgrel=1
+pkgdesc="evaluate a mathmatical expression"
+arch=(x86_64)
+url="https://github.com/IanS5/simplify"
+license=('MIT')
+depends=("mpfr" "gmp")
+source=("https://github.com/IanS5/simplify/archive/${pkgver}.zip")
+
+build() {
+    cd $srcdir/simplify-$pkgver
+    mkdir -p build
+    cd build
+    cmake ..
+    make simplify-bin
+}
+
+package() {
+    install -Dm775 "$srcdir/simplify-$pkgver/build/simplify" "$pkgdir/usr/bin/simplify"
+}
+md5sums=('3f16ff126e0ec580d5425edb9391084d')
