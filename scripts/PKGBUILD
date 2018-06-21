@@ -6,7 +6,7 @@ arch=(any)
 url=""
 license=('MIT')
 groups=('base')
-depends=('bash')
+depends=('bash' 'inotify-tools')
 source=("git+https://github.com/IanS5/scripts.git")
 
 package() {
@@ -14,5 +14,10 @@ package() {
 	for f in *.sh; do
         install -Dm 755 $f "$pkgdir"/usr/bin/`basename $f .sh`
     done
+
+	for f in completions/*.fish; do
+		install -Dm655 $f "$pkgdir"/usr/share/fish/completions/`basename $f`
+    done
 }
+
 md5sums=('SKIP')
