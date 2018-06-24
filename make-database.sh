@@ -16,6 +16,7 @@ for d in $packages; do
 
     for f in ./*.pkg.*; do
         repo-add "$database" "$f"
+        cp "$f" "$database_dir"
     done
 
     popd
@@ -23,3 +24,4 @@ done
 
 mv "$database" "$database_dir/$(basename $database_dir).db"
 mv "$database_dir/$(basename $database_dir).files.tar.gz" "$database_dir/$(basename $database_dir).files"
+rm "$database_dir"/*.old
