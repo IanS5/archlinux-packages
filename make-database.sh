@@ -2,7 +2,7 @@
 
 packages="$@"
 database_dir="$PWD/IanS5"
-database="$database_dir/$(basename $database_dir).db.tar.xz"
+database="$database_dir/$(basename $database_dir).db.tar.gz"
 
 mkdir -p "$database_dir"
 
@@ -20,3 +20,6 @@ for d in $packages; do
 
     popd
 done
+
+mv "$database" "$database_dir/$(basename $database_dir).db"
+mv "$database_dir/$(basename $database_dir).files.tar.gz" "$database_dir/$(basename $database_dir).files"
