@@ -1,0 +1,69 @@
+pkgname=docopts-git
+pkgver=1155e81ce7fcf2a942adc6e2e7e5b6967e440875
+pkgrel=1
+pkgdesc="Shell interpreter for docopt, the command-line interface description language."
+arch=('x86_64' 'i686')
+url="https://github.com/docopt/docopts"
+license=('MIT')
+makedepends=('go' 'git' 'python2')
+options=('!strip' '!emptydirs')
+_gourl=github.com/docopt/docopts
+
+build() {
+  export GOROOT=/usr/lib/go
+
+  rm -rf build
+  mkdir -p build/go
+  cd build/go
+
+  for f in "$GOROOT/"*; do
+    ln -s "$f"
+  done
+
+  rm pkg
+  mkdir pkg
+  cd pkg
+
+  for f in "$GOROOT/pkg/"*; do
+    ln -s "$f"
+  done
+
+  platform=`for f in "$GOROOT/pkg/"*; do echo \`basename $f\`; done|grep linux`
+
+  rm -f "$platform"
+  mkdir "$platform"
+  cd "$platform"
+
+  for f in "$GOROOT/pkg/$platform/"*.h; do
+    ln -s "$f"
+  done
+
+  export GOROOT="$srcdir/build/go"
+  export GOPATH="$srcdir/build"
+
+  go get -fix "github.com/docopt/docopt-go"
+  go get -fix "$_gourl"
+
+  # Prepare executable
+  if [ -d "$srcdir/build/src" ]; then
+    cd "$srcdir/build/src/$_gourl"
+    go install
+  else
+    echo 'Old sources for a previous version of this package are already present!'
+    echo 'Build in a chroot or uninstall the previous version.'
+    return 1
+  fi
+}
+
+check() {
+    cd "$srcdir/build/src/$_gourl" 
+	sed -i -e 's/python/python2/g' ./Makefile 
+	make test 
+}
+
+package() {
+  export GOROOT="$GOPATH"
+
+  install -Dm775 "$srcdir/build/src/$_gourl/docopts" "$pkgdir/usr/bin/docopts"
+  install -Dm775 "$srcdir/build/src/$_gourl/docopts.sh" "$pkgdir/usr/bin/docopts.sh"
+}
