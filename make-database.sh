@@ -16,6 +16,7 @@ for d in $packages; do
 
     for f in ./*.pkg.*; do
         repo-add "$database" "$f"
+        cp "$f" "$database_dir"
     done
 
     popd
