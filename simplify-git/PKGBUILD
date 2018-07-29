@@ -1,5 +1,5 @@
 pkgname=simplify-git
-pkgver=e3449c9db43ac1c20978ba61dde2cb124dc9abc2
+pkgver=97a58091f0ef972cead9a93f18366fd69ae57ac1
 pkgrel=1
 pkgdesc="evaluate a mathmatical expression"
 arch=(x86_64)
@@ -19,4 +19,5 @@ build() {
 package() {
     install -Dm775 "$srcdir/simplify-$pkgver/build/simplify" "$pkgdir/usr/bin/simplify"
 }
-md5sums=('9651eeb804fb693876f0f8e900f40a58')
+
+md5sums=('SKIP')
